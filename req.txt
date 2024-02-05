@@ -10,3 +10,4 @@ requests
 telebot
 celery
 rabbitmq
+rest_framework_simplejwt
