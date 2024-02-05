@@ -1,0 +1,12 @@
+django
+djangorestframework
+psycopg2-binary
+python-decouple
+Pillow
+django-filter
+drf-yasg
+pytelegrambotapi
+requests
+telebot
+celery
+rabbitmq
