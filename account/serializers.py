@@ -27,5 +27,3 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 class LogOutSerializer(serializers.Serializer):
     refresh = serializers.CharField(required=True, write_only=True)
-
-

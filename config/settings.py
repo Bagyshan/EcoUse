@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     # apps
-    'Account',
+    'account',
     'category',
     'product'
 ]
