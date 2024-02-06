@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class WindowEfficiency(models.Model):
@@ -51,7 +54,11 @@ class ApartmentHeatingMethodEfficiency(models.Model):
         return self.name
     
 class House(models.Model):
-    # owner = ForeignKey()
+    owner = models.ForeignKey(
+        User,
+        related_name='houses',
+        on_delete=models.CASCADE
+    )
     area = models.PositiveIntegerField()
     window = models.ForeignKey(WindowEfficiency, related_name='houses', on_delete=models.CASCADE)
     window_quantity = models.PositiveIntegerField()
@@ -64,6 +71,11 @@ class House(models.Model):
 
 
 class Apartment(models.Model):
+    owner = models.ForeignKey(
+        User,
+        related_name='apartments',
+        on_delete=models.CASCADE
+    )
     area = models.PositiveIntegerField()
     window = models.ForeignKey(WindowEfficiency, related_name='apartments', on_delete=models.CASCADE)
     window_quantity = models.PositiveIntegerField()
