@@ -45,12 +45,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    # 'djangorestframework_simplejwt',
     'drf_yasg',
 
     # apps
     'account',
     'category',
-    'product'
+    'product',
+    'home'
 ]
 
 MIDDLEWARE = [
