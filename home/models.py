@@ -1,6 +1,8 @@
 from django.db import models
 
-from account.models import CustomUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class WindowEfficiency(models.Model):
@@ -53,7 +55,7 @@ class ApartmentHeatingMethodEfficiency(models.Model):
     
 class House(models.Model):
     owner = models.ForeignKey(
-        CustomUser,
+        User,
         related_name='houses',
         on_delete=models.CASCADE
     )
@@ -70,7 +72,7 @@ class House(models.Model):
 
 class Apartment(models.Model):
     owner = models.ForeignKey(
-        CustomUser,
+        User,
         related_name='apartments',
         on_delete=models.CASCADE
     )

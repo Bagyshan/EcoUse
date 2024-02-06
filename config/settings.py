@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-4dkxgp6e5qy+imbd^jy#!9ifb(+wzo2$#j_#f+_xj+dw2ss-&%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split()
 
 
 # Application definition
@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    # 'djangorestframework_simplejwt',
     'drf_yasg',
+    'corsheaders',
 
     # apps
     'account',
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -94,10 +95,12 @@ DATABASES = {
         'NAME':config('DB_NAME'),
         'USER':config('DB_USER'),
         'PASSWORD':config('DB_PASS'),
-        'HOST':'localhost',
+        'HOST':config('DB_HOST'),
         'PORT':5432
     }
 }
+
+AUTH_USER_MODEL = 'account.CustomUser'
 
 
 # Password validation
@@ -135,8 +138,41 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'Accept',
+    'Accept-Encoding',
+    'Authorization',
+    'Content-Type',
+    'DNT',
+    'Origin',
+    'User-Agent',
+    'X-CSRFToken',
+    'X-Requested-With',
+]
+
+
+CORS_ALLOW_CREDENTIALS = True
