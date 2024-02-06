@@ -22,6 +22,8 @@ class Product(models.Model):
     )
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now = True)
+    image = models.ImageField(upload_to='product_img/',null=True, blank=True)
+    price = models.PositiveIntegerField()
 
     def save(self, *args, **kwargs):
         self.updated_at = timezone.now().date()
