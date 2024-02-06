@@ -1,11 +1,10 @@
-# views.py
 from rest_framework import viewsets, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
-from .permissions import IsOwner
+from .permissions import IsOwner, IsSeller
 
 class StandartResultPagination(PageNumberPagination):
     page_size = 10
@@ -20,6 +19,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
     
     def get_permissions(self):
-        if self.request.method in ['PATCH', 'PUT', 'DELETE']:
-            return [permissions.IsAuthenticated(), IsOwner()]
+        if self.request.method in ['PATCH', 'PUT', 'DELETE','POST']:
+            return [permissions.IsAuthenticated(), IsOwner(), IsSeller()]
         return [permissions.IsAuthenticatedOrReadOnly()]
