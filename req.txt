@@ -15,5 +15,9 @@ rest_framework_simplejwt
 djangorestframework_simplejwt
 gunicorn
 django-cors-headers
+<<<<<<< HEAD
 django-redis==5.1.0
+=======
+django-redis
+>>>>>>> 76ddb40685873e7db86fcb73cc2bde8806a528be
 
