@@ -1,8 +1,18 @@
 from django.db import models
+from home.models import *
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=60, unique=True)
+    NAME_CHOICE = (
+        (WindowEfficiency.__name__ + 'Category', 'Окна'),
+        (WallInsulationEfficiency.__name__ + 'Category', 'Стены'),
+        (RoofInsulationEfficiency.__name__ + 'Category', 'Крыша'),
+        (FloorInsulationEfficiency.__name__ + 'Category', 'Полы'),
+        (HouseHeatingMethodEfficiency.__name__ + 'Category', 'Методы отопления домов'),
+        (ApartmentHeatingMethodEfficiency.__name__ + 'Category', 'Методы отопления квартир')
+    )
+
+    name = models.CharField(choices=NAME_CHOICE, unique=True)
 
     def __str__(self) -> str:
         return self.name
