@@ -27,7 +27,7 @@ class RegistrationView(APIView):
             except:
                 return Response(
                     {
-                        'message': 'Че то не то, на почте нет ниче',
+                        'message': 'Письмо с кодом активации небыло отправлено на почту',
                         'data': serializer.data
                     }, status=HTTPStatus.CREATED
                 )

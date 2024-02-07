@@ -10,7 +10,8 @@ requests
 telebot
 celery
 rabbitmq
+redis
 rest_framework_simplejwt
 djangorestframework_simplejwt
-redis
-
+gunicorn
+django-cors-headers
