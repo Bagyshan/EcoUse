@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
 from .permissions import IsOwner, IsSeller
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from home.models import *
 
 class StandartResultPagination(PageNumberPagination):
     page_size = 10
