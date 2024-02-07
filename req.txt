@@ -12,4 +12,5 @@ celery
 rabbitmq
 rest_framework_simplejwt
 djangorestframework_simplejwt
+redis
 

@@ -36,6 +36,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=100, blank=True)
+    is_seller = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=255, blank=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='user')
 
