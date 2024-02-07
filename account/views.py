@@ -35,7 +35,7 @@ class RegistrationView(APIView):
 
 
 class ActivationView(APIView):
-    def post(self, request):
+    def get(self, request):
         activation_code = request.data.get('activation_code')
         if not activation_code:
             return Response({
@@ -64,3 +64,34 @@ class LogoutView(APIView):
         token = RefreshToken(refresh_token)
         token.blacklist()
         return Response('Успешно разлогинились', 200)
+
+
+# from django.shortcuts import get_object_or_404
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import status
+# from .models import CustomUser, PasswordResetCode
+# from .serializers import PasswordResetSerializer
+# from .tasks import send_password_reset_email_task
+# from django.utils.crypto import get_random_string
+
+# class PasswordResetView(APIView):
+#     serializer_class = PasswordResetSerializer
+
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         if serializer.is_valid():
+#             email = serializer.validated_data.get('email')
+#             user = get_object_or_404(CustomUser, email=email)
+
+#             # Создаем уникальный код для сброса пароля
+#             reset_code = get_random_string(length=32)
+
+#             # Сохраняем код в базе данных, связывая его с пользователем
+#             PasswordResetCode.objects.create(user=user, code=reset_code)
+
+#             # Отправляем электронное письмо с кодом сброса пароля
+#             send_password_reset_email_task.delay(user.email)
+
+#             return Response({'message': 'Письмо с инструкциями по сбросу пароля отправлено на ваш адрес электронной почты.'}, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
