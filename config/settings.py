@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'account',
     'category',
     'product',
-    'home'
+    'home',
+    'recommendation'
 ]
 
 MIDDLEWARE = [
@@ -212,6 +213,24 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+# settings.py
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6380/1',  # Используйте другой порт, например, 6380
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+
+REDIS_HOST = 'redis'
+REDIS_PORT = '6379'
+
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT 
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
@@ -241,3 +260,4 @@ CORS_ALLOW_HEADERS = [
 
 
 CORS_ALLOW_CREDENTIALS = True
+

@@ -22,7 +22,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: eco_use
-      POSTGRES_USER: bagyshan
+      POSTGRES_USER: user
       POSTGRES_PASSWORD: 1
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -31,14 +31,26 @@ services:
 
   migration:
     build: .
+    restart: on-failure
     command: >
-      sh -c "python manage.py makemigrations && python manage.py makemigrations account && python manage.py makemigrations category && python manage.py makemigrations home && python manage.py makemigrations product &&
-             python manage.py migrate && python manage.py migrate account && python manage.py migrate category && python manage.py migrate home && python manage.py migrate product" 
+      sh -c "python manage.py makemigrations && python manage.py makemigrations account && python manage.py makemigrations category && python manage.py makemigrations home && python manage.py makemigrations product && python manage.py makemigrations recommendation && 
+             python manage.py migrate && python manage.py migrate account && python manage.py migrate category && python manage.py migrate home && python manage.py migrate product && python manage.py migrate recommendation"
     volumes:
       - .:/usr/src/app/
     depends_on:
       - db
 
+  redis:
+    image: redis
+
+  celery:
+    build: .
+    command: celery -A config worker -l INFO
+    volumes:
+      - .:/usr/src/app/
+    depends_on:
+      - web
+      - redis
 
 
   nginx:

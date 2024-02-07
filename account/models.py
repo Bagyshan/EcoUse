@@ -36,6 +36,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=100, blank=True)
+    is_seller = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=255, blank=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='user')
 
@@ -55,6 +56,18 @@ class CustomUser(AbstractUser):
     groups = models.ManyToManyField(Group, related_name='custom_user_groups')
     user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')
 
+# from django.db import models
+# from django.utils import timezone
+# from .models import CustomUser
 
+# class PasswordResetCode(models.Model):
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     code = models.CharField(max_length=50, unique=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     def is_valid(self):
+#         # Добавьте логику для проверки срока действия кода (например, 1 час)
+#         expiration_time = timezone.now() - timezone.timedelta(hours=1)
+#         return self.created_at >= expiration_time
 
 
