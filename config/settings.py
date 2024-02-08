@@ -217,7 +217,7 @@ SIMPLE_JWT = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6380/1',  # Используйте другой порт, например, 6380
+        'LOCATION': 'redis://127.0.0.1:6380',  # Используйте другой порт, например, 6380
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -225,11 +225,12 @@ CACHES = {
 }
 
 
-REDIS_HOST =  'localhost'
-REDIS_PORT = '6379'
+REDIS_HOST = 'redis'
+REDIS_PORT = '6380'
 
-CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT 
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT 
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",

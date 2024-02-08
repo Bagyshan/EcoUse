@@ -1,3 +1,4 @@
+from base64 import urlsafe_b64encode
 from django.core.mail import send_mail
 from django.utils.html import format_html
 
@@ -25,3 +26,23 @@ def send_confirmation_email(email, code):
     )
     except Exception as e:
         print(f"Ошибка при отправке электронной почты: {e}")
+
+
+def send_password_reset_email(email, user_id):
+    password_reset_url = f'http://localhost:3000/account/password_confirm/{user_id}'
+    message = format_html(
+        'Здравствуйте, чтобы восстановить пароль вам нужно перети по ссылке'
+        '<br>'
+        '<a href= "{}">{}<\a>'
+        '<\br>',
+        password_reset_url, password_reset_url
+    )
+
+
+    send_mail(
+        'Здравствуйте',
+        message,
+        'test@gmail.com',
+        [email],
+        fail_silently=False
+    )
