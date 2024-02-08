@@ -37,8 +37,7 @@ class RegistrationView(APIView):
  
 
 class ActivationView(APIView):
-    def get(self, request):
-        activation_code = self.request.query_params.get('u') 
+    def get(self, request, activation_code):
         if not activation_code:
             return Response({
                 'error': 'Нужен код активации'
