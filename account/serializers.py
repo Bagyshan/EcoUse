@@ -31,3 +31,19 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LogOutSerializer(serializers.Serializer):
     refresh = serializers.CharField(required=True, write_only=True)
 
+# from rest_framework import serializers
+
+# class PasswordResetSerializer(serializers.Serializer):
+#     email = serializers.EmailField()
+
+
+class CustomResetPasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    class Meta:
+        model = CustomUser
+        fields = ['email']
+
+class CustomPasswordConfirmSerializers(serializers.Serializer):
+    password = serializers.CharField(min_length=10, required=True, write_only=True)
+    password_confirm = serializers.CharField(min_length=10, required=True, write_only=True)

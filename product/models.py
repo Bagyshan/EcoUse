@@ -1,8 +1,10 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from category.models import Category
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-
+from home.models import *
 
 User = get_user_model()
 
@@ -20,15 +22,14 @@ class Product(models.Model):
         related_name='products',
         null=True
     )
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now = True)
-    image = models.ImageField(upload_to='product_img/',null=True, blank=True)
+    image = models.ImageField(upload_to='media')
     price = models.PositiveIntegerField()
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
 
     def save(self, *args, **kwargs):
         self.updated_at = timezone.now().date()
         super(Product, self).save(*args, **kwargs)
-
 
     def __str__(self) -> str:
         return self.title

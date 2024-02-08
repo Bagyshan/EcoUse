@@ -1,53 +1,52 @@
 from django.db import models
-
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
 class WindowEfficiency(models.Model):
-    window_view = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=100, unique=True)
+    window_view = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     insulation_efficiency = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
 
 class WallInsulationEfficiency(models.Model):
-    wall_insulation_view = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=100, unique=True)
+    wall_insulation_view = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     insulation_efficiency = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
     
 class RoofInsulationEfficiency(models.Model):
-    roof_insulation_view = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=100, unique=True)
+    roof_insulation_view = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     insulation_efficiency = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
     
 class FloorInsulationEfficiency(models.Model):
-    floor_insulation_view = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=100, unique=True)
+    floor_insulation_view = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     insulation_efficiency = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
     
 class HouseHeatingMethodEfficiency(models.Model):
-    house_heating_method_view = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=100, unique=True)
+    house_heating_method_view = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     insulation_efficiency = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
     
 class ApartmentHeatingMethodEfficiency(models.Model):
-    apartment_heating_method_view = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=100, unique=True)
+    apartment_heating_method_view = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     insulation_efficiency = models.PositiveIntegerField()
 
     def __str__(self):
@@ -81,4 +80,4 @@ class Apartment(models.Model):
     window_quantity = models.PositiveIntegerField()
     floor_insulation  = models.ForeignKey(FloorInsulationEfficiency, related_name='apartments', on_delete=models.CASCADE)
     heating_method = models.ForeignKey(ApartmentHeatingMethodEfficiency, related_name='apartments', on_delete=models.CASCADE)
-    sum_price = models.PositiveIntegerField()
+    sum_price = models.PositiveIntegerField()   

@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'account',
     'category',
     'product',
-    'home'
+    'home',
+    'recommendation'
 ]
 
 MIDDLEWARE = [
@@ -226,11 +227,10 @@ CACHES = {
 
 
 REDIS_HOST = 'redis'
-REDIS_PORT = '6380'
+REDIS_PORT = '6379'
 
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT 
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
