@@ -1,9 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from .models import CustomUser
 from .send_email import send_confirmation_email
 
-# User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=10, required=True, write_only=True)
@@ -31,11 +29,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LogOutSerializer(serializers.Serializer):
     refresh = serializers.CharField(required=True, write_only=True)
 
-# from rest_framework import serializers
-
-# class PasswordResetSerializer(serializers.Serializer):
-#     email = serializers.EmailField()
-
 
 class CustomResetPasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -43,7 +36,3 @@ class CustomResetPasswordResetSerializer(serializers.Serializer):
     class Meta:
         model = CustomUser
         fields = ['email']
-
-class CustomPasswordConfirmSerializers(serializers.Serializer):
-    password = serializers.CharField(min_length=10, required=True, write_only=True)
-    password_confirm = serializers.CharField(min_length=10, required=True, write_only=True)
