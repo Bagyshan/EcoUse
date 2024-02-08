@@ -3,15 +3,16 @@ from http import HTTPStatus
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import RegisterSerializer , LogOutSerializer
+from .serializers import CustomResetPasswordResetSerializer, RegisterSerializer , LogOutSerializer
 from django.contrib.auth import get_user_model
 from .send_email import send_confirmation_email
 from django.shortcuts import get_object_or_404
-from .tasks import send_confirmation_email_task
+from .tasks import send_confirmation_email_task, send_password_reset_task
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
 
 
 User = get_user_model()
@@ -36,29 +37,33 @@ class RegistrationView(APIView):
                 )
             return Response(serializer.data, status=HTTPStatus.CREATED)
 
+ 
 
 class ActivationView(APIView):
     def get(self, request):
-        activation_code = request.data.get('activation_code')
+        activation_code = self.request.query_params.get('u')  # Извлекаем параметр 'u' из строки запроса
         if not activation_code:
             return Response({
                 'error': 'Нужен код активации'
-            }, status=HTTPStatus.BAD_REQUEST)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
         user = get_object_or_404(User, activation_code=activation_code)
         user.is_active = True
         user.activation_code = ''
         user.save()
+
         try:
             send_confirmation_email(user.email, user.activation_code)
             return Response({
-                'message': 'Пользователь активирован'}, status=HTTPStatus.OK
-            )
+                'message': 'Пользователь активирован'
+            }, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
                 {'error': f'Ошибка при отправке подтверждения по электронной почте: {e}'},
-                            status=HTTPStatus.INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
+
+
 class LogoutView(APIView):
     serializer_class = LogOutSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -94,7 +99,31 @@ class LogoutView(APIView):
 #             PasswordResetCode.objects.create(user=user, code=reset_code)
 
 #             # Отправляем электронное письмо с кодом сброса пароля
-#             send_password_reset_email_task.delay(user.email)
+#             send_password_reset_email_task.delay(email)
 
 #             return Response({'message': 'Письмо с инструкциями по сбросу пароля отправлено на ваш адрес электронной почты.'}, status=status.HTTP_200_OK)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CustomResetPasswordView(APIView):
+    @swagger_auto_schema(request_body=CustomResetPasswordResetSerializer)
+    def post(self, request):
+        email = request.data.get('email')
+        user = User.objects.get(email=email)
+        user_id = user.id
+        if not user:
+            return Response({'ValidationError': 'Нет такого пользователя'}, status=HTTPStatus.BAD_REQUEST)
+        
+        send_password_reset_task.delay(email=email, user_id=user_id)
+        return Response('Вам на почту отправили сообщение', 200)
+    
+
+class CustomPasswordConfirmView(APIView):
+    def post(self, request, *args, **kwargs):
+        new_password = request.data.get('new_password')
+        password_confirm = request.data.get('password_confirm')
+        user_id = self.kwargs.get('uidb64')
+        user = User.objects.get(id=user_id)
+        if new_password != password_confirm:
+            return Response('Пароли не совпадают', 404)
+        user.set_password(new_password)
+        user.save()
+        return Response('Ваш пароль изменен!', 201)

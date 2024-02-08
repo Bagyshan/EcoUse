@@ -17,4 +17,3 @@ gunicorn
 django-cors-headers
 django-redis
 
-
