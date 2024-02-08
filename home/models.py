@@ -80,4 +80,4 @@ class Apartment(models.Model):
     window_quantity = models.PositiveIntegerField()
     floor_insulation  = models.ForeignKey(FloorInsulationEfficiency, related_name='apartments', on_delete=models.CASCADE)
     heating_method = models.ForeignKey(ApartmentHeatingMethodEfficiency, related_name='apartments', on_delete=models.CASCADE)
-    sum_price = models.PositiveIntegerField()
+    sum_price = models.PositiveIntegerField()   

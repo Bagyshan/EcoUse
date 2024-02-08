@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import RegisterSerializer , LogOutSerializer
@@ -10,6 +11,7 @@ from .tasks import send_confirmation_email_task
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
+from drf_yasg.utils import swagger_auto_schema
 
 
 User = get_user_model()
@@ -17,6 +19,7 @@ User = get_user_model()
 class RegistrationView(APIView):
     serializer_class = RegisterSerializer
 
+    @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
