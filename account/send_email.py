@@ -31,12 +31,13 @@ def send_confirmation_email(email, code):
 def send_password_reset_email(email, user_id):
     password_reset_url = f'http://localhost:8000/account/password_confirm/{user_id}'
     message = format_html(
-        'Здравствуйте, чтобы восстановить пароль вам нужно перети по ссылке'
+        'Здравствуйте, чтобы восстановить пароль, вам нужно перейти по ссылке:'
         '<br>'
-        '<a href= "{}">{}<\a>'
-        '<\br>',
+        '<a href="{}">{}</a>'
+        '<br>',
         password_reset_url, password_reset_url
     )
+
 
 
     send_mail(
