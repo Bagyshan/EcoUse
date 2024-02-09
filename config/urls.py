@@ -36,8 +36,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('category/', include('category.urls')),
     path('products/',include('product.urls')),
-    path('home/', include('home.urls')),
-    path('bot/',include('tele_bot_app.urls'))
+    path('home/', include('home.urls'))
 ]
 
 from django.conf.urls.static import static

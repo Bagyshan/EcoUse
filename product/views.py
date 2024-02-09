@@ -8,6 +8,7 @@ from .permissions import IsOwner, IsSeller
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from home.models import *
+from rest_framework import generics
 
 class StandartResultPagination(PageNumberPagination):
     page_size = 10
@@ -25,3 +26,11 @@ class ProductViewSet(viewsets.ModelViewSet):
         if self.request.method in ['PATCH', 'PUT', 'DELETE','POST']:
             return [permissions.IsAuthenticated(), IsOwner(), IsSeller()]
         return [permissions.IsAuthenticatedOrReadOnly()]
+    
+    
+class ProductListByCategory(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return Product.objects.filter(category_id=category_id)
