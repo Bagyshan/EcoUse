@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'category',
     'product',
     'home',
-    'recommendation'
+    'recommendation',
+    'tele_bot_app'
 ]
 
 MIDDLEWARE = [
