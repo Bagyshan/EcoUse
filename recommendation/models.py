@@ -1,11 +1,24 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 
-from product.models import Product
+from home.models import House, Apartment
+
 
 # Create your models here.
-User = get_user_model()
+class HouseRecommendaion(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    products = models.ForeignKey(
+        House,
+        related_name='recommendations',
+        on_delete=models.CASCADE
+    )
 
-class Recommendation(models.Model):
-    user = models.ForeignKey(User, related_name='recommendations',on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, related_name='recommendations', on_delete=models.CASCADE)
+class ApartmentRecommendation(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    products = models.ForeignKey(
+        Apartment,
+        related_name='recommendations',
+        on_delete=models.CASCADE
+    )
+
