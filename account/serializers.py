@@ -36,3 +36,12 @@ class CustomResetPasswordResetSerializer(serializers.Serializer):
     class Meta:
         model = CustomUser
         fields = ['email']
+    
+class CustomPasswordConfirmSerializer(serializers.Serializer):
+    new_password = serializers.CharField(min_length=10, required=True, write_only=True)
+    password_confirm = serializers.CharField(min_length=10, required=True, write_only=True)
+    confirm_code = serializers.CharField(min_length=10, required=True, write_only=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ['new_password', 'password_confirm', 'confirm_code']

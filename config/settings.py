@@ -16,7 +16,7 @@ import os
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -34,6 +34,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split()
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,10 +140,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -260,4 +261,80 @@ CORS_ALLOW_HEADERS = [
 
 
 CORS_ALLOW_CREDENTIALS = True
+
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} - {levelname} - {module} - {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{message}\n',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        }
+    }
+}
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Ecouse",
+    "site_header": "Ecouse",
+    # "site_logo": "images/logo.png",  # Путь к вашему логотипу
+    "site_logo_classes": "img-circle",
+    "welcome_sign": "Добро пожаловать в Library",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": ["social_django", "auth"],
+    "usermenu_links": [
+        {
+            "name": "Помощь",
+            "url": "https://www.google.com/",
+            "new_window": True
+        },
+        {
+            "model": "auth.user"
+        }
+    ],
+    "topmenu_links": [
+        # Ссылки, отображаемые в верхнем меню
+        {"name": "Домой", "url": "admin:index",
+         "permissions": ["auth.view_user"]},
+        {"name": "Поддержка", "url": "https://www.google.com/",
+         "new_window": True},
+    ],
+    "show_ui_builder": True,
+    "changeform_format": "horizontal_tabs",
+    # Используйте горизонтальные вкладки на страницах редактирования
+    "changeform_format_overrides": {"auth.user": "collapsible",
+                                    "auth.group": "vertical_tabs"},
+    "show_icons": True,  # Показывать иконки в меню
+    "default_theme": "cerulean",  # Используйте тему Cerulean из Bootswatch
+    "related_modal_active": True,
+    # Включить модальные окна для связанных объектов
+}
 

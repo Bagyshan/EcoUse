@@ -5,7 +5,7 @@ from django.urls import path
 urlpatterns = [
     path('register/', RegistrationView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('account/activate/<uuid:activation_code>/', ActivationView.as_view(), name='activate'),
+    path('activate/<uuid:activation_code>/', ActivationView.as_view(), name='activate'),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('reset_password/', CustomResetPasswordView.as_view()),
