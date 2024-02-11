@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'product',
     'home',
     'recommendation',
-    'parent_category'
+    'parentcategory'
 ]
 
 MIDDLEWARE = [

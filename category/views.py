@@ -17,7 +17,7 @@ class CategoryViewSet(ModelViewSet):
         else:
             return [permissions.IsAdminUser()]
     
-    @action(detail=True, methods=['get'])
+    # @action(detail=True, methods=['get'])
     def get_category_products(self, request, pk):
         category = self.get_object()  # Получаем объект категории по её id
         products = category.products.all()  # Получаем все продукты для данной категории

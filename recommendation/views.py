@@ -29,7 +29,7 @@ class HouseRecommendationViewSet(viewsets.ModelViewSet):
 
 
 
-    @action(detail=True, methods=['get', 'post', 'patch', 'delete'])
+    # @action(detail=True, methods=['get', 'post', 'patch', 'delete'])
     def get_house_recommendation(self, request, pk):
         user_id = request.query_params.get('user_id')
         if not user_id:
@@ -125,7 +125,7 @@ class ApartmentRecommendationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-    @action(detail=True, methods=['get', 'post', 'patch', 'delete'])
+    # @action(detail=True, methods=['get', 'post', 'patch', 'delete'])
     def get_apartment_recommendation(self, request, pk):
         user_id = request.query_params.get('user_id')
         if not user_id:

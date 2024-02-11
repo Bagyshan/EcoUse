@@ -20,9 +20,9 @@ class ParentCategoryViewSet(ModelViewSet):
             return [permissions.IsAdminUser()]
         
 
-    @action(detail=True, methods=['get'])
+    # @action(detail=True, methods=['get'])
     def get_child_categories(self, request, pk):
         parent_category = self.get_object()  # Получаем объект категории по её id
-        products = parent_category.children.all()  # Получаем все продукты для данной категории
-        serializer = CategorySerializer(products, many=True)  # Сериализуем данные о продуктах
+        categories = parent_category.children.all()  # Получаем все продукты для данной категории
+        serializer = CategorySerializer(categories, many=True)  # Сериализуем данные о продуктах
         return Response(serializer.data) 
