@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .send_email import send_confirmation_email
 from .tasks import send_confirmation_email_task, send_password_reset_task
-from .serializers import CustomResetPasswordResetSerializer, RegisterSerializer , LogOutSerializer
+from .serializers import CustomPasswordConfirmSerializer, CustomResetPasswordResetSerializer, RegisterSerializer , LogOutSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
@@ -37,7 +37,8 @@ class RegistrationView(APIView):
  
 
 class ActivationView(APIView):
-    def get(self, request, activation_code):
+    def get(self, request):
+        activation_code = self.request.query_params.get('u') 
         if not activation_code:
             return Response({
                 'error': 'Нужен код активации'
@@ -75,15 +76,17 @@ class CustomResetPasswordView(APIView):
     def post(self, request):
         email = request.data.get('email')
         user = User.objects.get(email=email)
-        user_id = user.id
         if not user:
             return Response({'ValidationError': 'Нет такого пользователя'}, status=HTTPStatus.BAD_REQUEST)
-        
-        send_password_reset_task.delay(email=email, user_id=user_id)
+        user.create_activation_code()
+        user.save()
+        user_activation_code = user.activation_url
+        send_password_reset_task.delay(email=email, user_id=user_activation_code)
         return Response('Вам на почту отправили сообщение', 200)
     
 
 class CustomPasswordConfirmView(APIView):
+    @swagger_auto_schema(request_body=CustomPasswordConfirmSerializer)
     def post(self, request, *args, **kwargs):
         new_password = request.data.get('new_password')
         password_confirm = request.data.get('password_confirm')

@@ -26,7 +26,7 @@ from parent_category.models import ParentCategory
 
 
 class Category(models.Model):
-    parent = models.ForeignKey(ParentCategory, on_delete=models.CASCADE, related_name='children',)
+    parent = models.ForeignKey(ParentCategory, on_delete=models.CASCADE, related_name='categories')
     window_efficiency = models.ForeignKey(WindowEfficiency, on_delete=models.CASCADE, related_name='categories', blank=True, null=True)
     wall_insulation_efficiency = models.ForeignKey(WallInsulationEfficiency, on_delete=models.CASCADE, related_name='categories', blank=True, null=True)
     roof_insulation_efficiency = models.ForeignKey(RoofInsulationEfficiency, on_delete=models.CASCADE, related_name='categories', blank=True, null=True)
