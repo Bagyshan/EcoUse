@@ -17,6 +17,13 @@ services:
       - db
       - migration
 
+  telegram-bot:  # Новый сервис для телеграм-бота
+    build: bot
+    depends_on:
+      - web
+      - migration
+      - redis
+
   db:
     image: postgres
     restart: always
