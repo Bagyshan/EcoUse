@@ -59,12 +59,12 @@ class House(models.Model):
         on_delete=models.CASCADE
     )
     area = models.PositiveIntegerField()
-    window = models.ForeignKey(WindowEfficiency, related_name='houses', on_delete=models.CASCADE)
+    window = models.ForeignKey(WindowEfficiency, related_name='houses', on_delete=models.CASCADE, null=True, blank=True)
     window_quantity = models.PositiveIntegerField()
-    wall_insulation = models.ForeignKey(WallInsulationEfficiency, related_name='houses', on_delete=models.CASCADE)
-    roof_insulation = models.ForeignKey(RoofInsulationEfficiency, related_name='houses', on_delete=models.CASCADE)
-    floor_insulation  = models.ForeignKey(FloorInsulationEfficiency, related_name='houses', on_delete=models.CASCADE)
-    heating_method = models.ForeignKey(HouseHeatingMethodEfficiency, related_name='houses', on_delete=models.CASCADE)
+    wall_insulation = models.ForeignKey(WallInsulationEfficiency, related_name='houses', on_delete=models.CASCADE, null=True, blank=True)
+    roof_insulation = models.ForeignKey(RoofInsulationEfficiency, related_name='houses', on_delete=models.CASCADE, null=True, blank=True)
+    floor_insulation  = models.ForeignKey(FloorInsulationEfficiency, related_name='houses', on_delete=models.CASCADE, null=True, blank=True)
+    heating_method = models.ForeignKey(HouseHeatingMethodEfficiency, related_name='houses', on_delete=models.CASCADE, null=True, blank=True)
     sum_price = models.PositiveIntegerField()
 
 
@@ -76,8 +76,8 @@ class Apartment(models.Model):
         on_delete=models.CASCADE
     )
     area = models.PositiveIntegerField()
-    window = models.ForeignKey(WindowEfficiency, related_name='apartments', on_delete=models.CASCADE)
+    window = models.ForeignKey(WindowEfficiency, related_name='apartments', on_delete=models.CASCADE, null=True, blank=True)
     window_quantity = models.PositiveIntegerField()
-    floor_insulation  = models.ForeignKey(FloorInsulationEfficiency, related_name='apartments', on_delete=models.CASCADE)
-    heating_method = models.ForeignKey(ApartmentHeatingMethodEfficiency, related_name='apartments', on_delete=models.CASCADE)
+    floor_insulation  = models.ForeignKey(FloorInsulationEfficiency, related_name='apartments', on_delete=models.CASCADE, null=True, blank=True)
+    heating_method = models.ForeignKey(ApartmentHeatingMethodEfficiency, related_name='apartments', on_delete=models.CASCADE, null=True, blank=True)
     sum_price = models.PositiveIntegerField()   

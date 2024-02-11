@@ -48,13 +48,15 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
     'corsheaders',
+    'openai',
 
     # apps
     'account',
     'category',
     'product',
     'home',
-    'recommendation'
+    'recommendation',
+    'parent_category'
 ]
 
 MIDDLEWARE = [

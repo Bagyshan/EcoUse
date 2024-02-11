@@ -18,3 +18,4 @@ django-cors-headers
 django-redis
 django-jazzmin
 django-filter
+openai

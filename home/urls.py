@@ -3,7 +3,6 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 router = DefaultRouter()
-# router.register('', WindowEfficiencyViewSet, basename='window')
 router.register(r'window_efficiency', WindowEfficiencyViewSet)
 router.register(r'house', HouseViewSet)
 router.register(r'wall_insulation_efficiency', WallInsulationEfficiencyViewSet)
@@ -14,5 +13,6 @@ router.register(r'apartment_heating_method_efficiency', ApartmentHeatingMethodEf
 router.register(r'apartment', ApartmentViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    # path('houses/<int:pk>/recommendation/', HouseAPIView.as_view({'get': 'get_house_recommendation'}), name='house_recommendation'),
 ]

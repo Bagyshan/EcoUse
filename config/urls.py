@@ -18,8 +18,10 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)),
     path('account/', include('account.urls')),
     path('category/', include('category.urls')),
-    path('products/', include('product.urls')),
+    path('products/',include('product.urls')),
     path('home/', include('home.urls')),
+    path('recommendation/', include('recommendation.urls')),
+    path('parent_category/', include('parent_category.urls'))
 ]
 
 from django.conf.urls.static import static

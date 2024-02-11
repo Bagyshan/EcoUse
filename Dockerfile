@@ -20,7 +20,7 @@ RUN apt-get update \
 
 # Устанавливаем зависимости Python
 COPY req.txt ./
-RUN pip install --no-cache-dir -r req.txt
+RUN pip install --no-cache-dir -r req.txt && pip install openai
 
 # Собираем статические файлы Django
 RUN python manage.py collectstatic --noinput

@@ -33,20 +33,22 @@ class ApartmentHeatingMethodEfficiencySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class HouseSerializer(serializers.ModelSerializer):
-    window = WindowEfficiencySerializer()
-    wall_insulation = WallInsulationEfficiencySerializer()
-    roof_insulation = RoofInsulationEfficiencySerializer()
-    floor_insulation = FloorInsulationEfficiencySerializer()
-    heating_method = HouseHeatingMethodEfficiencySerializer()
+    owner = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(), read_only=True)
+    # window = WindowEfficiencySerializer(required=False)
+    # wall_insulation = WallInsulationEfficiencySerializer(required=False)
+    # roof_insulation = RoofInsulationEfficiencySerializer(required=False)
+    # floor_insulation = FloorInsulationEfficiencySerializer(required=False)
+    # heating_method = HouseHeatingMethodEfficiencySerializer(required=False)
 
     class Meta:
         model = House
         fields = '__all__'
 
 class ApartmentSerializer(serializers.ModelSerializer):
-    window = WindowEfficiencySerializer()
-    floor_insulation = FloorInsulationEfficiencySerializer()
-    heating_method = ApartmentHeatingMethodEfficiencySerializer()
+    owner = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(), read_only=True)
+    # window = WindowEfficiencySerializer(required=False)
+    # floor_insulation = FloorInsulationEfficiencySerializer(required=False)
+    # heating_method = ApartmentHeatingMethodEfficiencySerializer(required=False)
 
     class Meta:
         model = Apartment
