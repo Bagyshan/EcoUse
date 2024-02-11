@@ -220,7 +220,7 @@ SIMPLE_JWT = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6380/1',  # Используйте другой порт, например, 6380
+        'LOCATION': 'redis://127.0.0.1:6380',  # Используйте другой порт, например, 6380
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }

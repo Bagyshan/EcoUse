@@ -15,7 +15,11 @@ rest_framework_simplejwt
 djangorestframework_simplejwt
 gunicorn
 django-cors-headers
+<<<<<<< HEAD
 django-redis
 openai
 
 
+=======
+django-redis
+>>>>>>> c30a1e4ebc00edb76485e046fb9bbb81150d2e53

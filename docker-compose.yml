@@ -28,7 +28,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
-
+    
   migration:
     build: .
     restart: on-failure
@@ -71,3 +71,4 @@ volumes:
   static_volume:
   media_volume:
   logs_volume:
+  redis_data:
