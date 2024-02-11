@@ -4,7 +4,7 @@ from rest_framework import serializers
 from .models import HouseRecommendaion, ApartmentRecommendation
 
 
-class HouseRecommendationSerializer(serializers.Model):
+class HouseRecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseRecommendaion
         fields = '__all__'

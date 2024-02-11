@@ -14,5 +14,5 @@ router.register(r'apartment', ApartmentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('house/<int:pk>/get_house_recommendation/', HouseViewSet.as_view({'get': 'get_house_recommendation'}), name='get-house-recommendation'),
+    # path('houses/<int:pk>/recommendation/', HouseAPIView.as_view({'get': 'get_house_recommendation'}), name='house_recommendation'),
 ]

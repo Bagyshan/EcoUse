@@ -8,7 +8,7 @@ ENV PYTHONIOENCODING UTF-8
 WORKDIR /usr/src/app/
 
 COPY req.txt ./
-RUN pip install --no-cache-dir -r req.txt
+RUN pip install --no-cache-dir -r req.txt && pip install openai
 
 RUN mkdir static && mkdir media
 COPY . .

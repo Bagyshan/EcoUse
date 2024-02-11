@@ -36,7 +36,9 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('category/', include('category.urls')),
     path('products/',include('product.urls')),
-    path('home/', include('home.urls'))
+    path('home/', include('home.urls')),
+    path('recommendation/', include('recommendation.urls')),
+    path('parent_category/', include('parent_category.urls'))
 ]
 
 from django.conf.urls.static import static

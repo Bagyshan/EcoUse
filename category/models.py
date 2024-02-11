@@ -1,5 +1,7 @@
 from django.db import models
+
 from home.models import *
+from parent_category.models import ParentCategory
 
 
 # class Category(models.Model):
@@ -24,6 +26,7 @@ from home.models import *
 
 
 class Category(models.Model):
+    parent = models.ForeignKey(ParentCategory, on_delete=models.CASCADE, related_name='children',)
     window_efficiency = models.ForeignKey(WindowEfficiency, on_delete=models.CASCADE, related_name='categories', blank=True, null=True)
     wall_insulation_efficiency = models.ForeignKey(WallInsulationEfficiency, on_delete=models.CASCADE, related_name='categories', blank=True, null=True)
     roof_insulation_efficiency = models.ForeignKey(RoofInsulationEfficiency, on_delete=models.CASCADE, related_name='categories', blank=True, null=True)

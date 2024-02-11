@@ -6,5 +6,6 @@ router = DefaultRouter()
 router.register('', CategoryViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('<int:pk>/products/', CategoryViewSet.as_view({'get': 'get_category_products'}), name='category-products')
 ]

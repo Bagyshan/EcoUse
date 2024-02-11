@@ -9,9 +9,9 @@ class CategorySerializer(serializers.ModelSerializer):
         
     # def to_representation(self, instance):
     #     repr = super().to_representation(instance)
-    #     children = instance.subcategories.all()
-    #     if children:
+    #     products = instance.products.all()
+    #     if products:
     #         repr['children'] = CategorySerializer(
-    #             children, many=True
+    #             products, many=True
     #         ).data
     #     return repr

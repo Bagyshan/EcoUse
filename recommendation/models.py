@@ -1,24 +1,17 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 from home.models import House, Apartment
+from product.models import Product
 
 
-# Create your models here.
 class HouseRecommendaion(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    products = models.ForeignKey(
-        House,
-        related_name='recommendations',
-        on_delete=models.CASCADE
-    )
+    # products = models.JSONField()
 
 class ApartmentRecommendation(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    products = models.ForeignKey(
-        Apartment,
-        related_name='recommendations',
-        on_delete=models.CASCADE
-    )
+    products = models.JSONField()
 
