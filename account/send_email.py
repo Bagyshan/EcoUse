@@ -31,11 +31,11 @@ def send_confirmation_email(email, code):
 def send_password_reset_email(email, user_id):
     password_reset_url = f'http://35.232.206.28/account/password_confirm/{user_id}'
     message = format_html(
-        'Здравствуйте, чтобы восстановить пароль, вам нужно перейти по ссылке:'
+        'Здравствуйте, вот ваш:'
         '<br>'
-        '<a href="{}">{}</a>'
+        '{}'
         '<br>',
-        password_reset_url, password_reset_url
+        user_id
     )
 
 

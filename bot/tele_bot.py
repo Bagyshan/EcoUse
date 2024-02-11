@@ -1,4 +1,3 @@
-import json
 import telebot
 import requests
 from telebot import types
@@ -7,7 +6,7 @@ from telebot import types
 
 TOKEN = '6957575391:AAHjHq2lFnoCjikPk8ogNiSq_BeebeLMmKk'
 
-BACKEND_URL = 'http://localhost/'
+BACKEND_URL = 'http://localhost'
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -27,8 +26,7 @@ response = requests.get(f'{BACKEND_URL}/category/')
 if response.status_code == 200:
     response_data = response.json()
     categories = {category['name']:category['id'] for category in response_data}
-    print(categories)
-
+    
 
 
 @bot.message_handler(commands=['start'])
@@ -48,11 +46,11 @@ def handle_help(message):
 
 @bot.message_handler(commands=['products'])
 def handle_search(message):
-    search_url = f'{BACKEND_URL}/products/'
+    search_url = f'{BACKEND_URL}/products/products/'
 
     response = requests.get(search_url)
 
-    result_data = json.dumps(response.get('results'))
+    result_data = response.json().get('results')
 
     if result_data:
         for product in result_data:
@@ -104,21 +102,23 @@ def handle_buttons(message):
     elif message.text == 'Команды':
         handle_help(message)
     elif message.text in categories.keys():
-        category_name = message.text
-        response = requests.get(f'{BACKEND_URL}/products/category/', params={'category_id':f'{categories[category_name]}'})
-
-        result_data = response.json().get('results')
+        category_name = categories[message.text]
+        response = requests.get(f'{BACKEND_URL}/products/category/{category_name}/',)
+        result_data = response.json()
 
         if result_data:
-            for product in result_data:
+            for product in result_data :
                 title = product.get('title', 'Нет заголовка')
                 body = product.get('body', 'Нет описания')
                 image = product.get('image', None)
                 price = product.get('price', 'Нет цены')
                 created_at = product.get('created_at', 'Нет даты создания')
 
+                
+
                 message_text = f"Назание: {title}\n\n Описание: {body}\nЦена: {price}\nДата создания: {created_at}"
                 image_send(image)
+                print(image_send)
                 image = 'product_image.jpg'
                 with open(image, 'rb') as photo:
                     bot.send_photo(message.chat.id, photo=photo, caption=message_text)
