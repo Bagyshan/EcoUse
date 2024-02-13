@@ -1,7 +1,7 @@
 from django.db import models
 
 from home.models import *
-from parent_category.models import ParentCategory
+from parentcategory.models import ParentCategory
 
 
 # class Category(models.Model):
