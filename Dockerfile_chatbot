@@ -1,0 +1,20 @@
+FROM ubuntu:lastest
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y && \ 
+    apt-get upgrade -y && \
+    apt-get install -y python3 python3-pip
+
+
+RUN pip3 install openai
+
+RUN apt-get autoremove -y && \ 
+    apt-get clean && \ 
+    rm -rf /var/lib/apt/lists/*
+
+COPY chatbot.py /usr/src/app/chatbot.py
+
+WORKDIR /usr/src/app
+
+CMD ["python3","chatbot.py"]

@@ -24,6 +24,12 @@ services:
       - migration
       - redis
 
+  chatbot:
+    build: .
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: on-failure
+
   db:
     image: postgres
     restart: always
@@ -40,8 +46,8 @@ services:
     build: .
     restart: on-failure
     command: >
-      sh -c "python manage.py makemigrations && python manage.py makemigrations account && python manage.py makemigrations category && python manage.py makemigrations home && python manage.py makemigrations product && python manage.py makemigrations recommendation && python manage.py makemigrations parentcategory &&
-             python manage.py migrate && python manage.py migrate account && python manage.py migrate category && python manage.py migrate home && python manage.py migrate product && python manage.py migrate recommendation && python manage.py migrate parentcategory"
+      sh -c "python manage.py makemigrations && python manage.py makemigrations account && python manage.py makemigrations category && python manage.py makemigrations home && python manage.py makemigrations product && python manage.py makemigrations recommendation && python manage.py makemigrations parentcategory && python manage.py makemigrations comment && python manage.py makemigrations favorite
+             python manage.py migrate && python manage.py migrate account && python manage.py migrate category && python manage.py migrate home && python manage.py migrate product && python manage.py migrate recommendation && python manage.py migrate parentcategory && python manage.py migrate comment && python manage.py migrate favorite"
     volumes:
       - .:/usr/src/app/
     depends_on:

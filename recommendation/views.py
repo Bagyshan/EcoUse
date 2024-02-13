@@ -6,7 +6,8 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-# import openai
+import openai
+from chatbot import Chatbot
 
 from category.models import Category
 from home.models import House, Apartment
@@ -106,10 +107,11 @@ class HouseRecommendationViewSet(viewsets.ModelViewSet):
         # for j in window_category_list:
         #     high = Category.objects.get(window_efficiency=j)
         #     low = house_window.name
+        #     text = f'чем хороши {high.name}, и чем он лучше {low}'
         #     window_recommendation = window_recommendation_model.objects.create(
         #         title=window_title,
-        #         description=ask_gpt(high.name, low)
-        #         # products=[x for x in recommendation_dict['window_products'] if x['category'] == high.id]
+        #         description=Chatbot.ask_question(text),
+        #         products=[x for x in recommendation_dict['window_products'] if x['category'] == high.id]
         #     )
         #     window_recommendation_serializer = HouseRecommendationSerializer(window_recommendation, many=True)
         #     window_category_dict[high.name] = window_recommendation_serializer.data

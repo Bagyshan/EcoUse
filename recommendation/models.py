@@ -8,7 +8,7 @@ from product.models import Product
 class HouseRecommendaion(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    # products = models.JSONField()
+    products = models.JSONField()
 
 class ApartmentRecommendation(models.Model):
     title = models.CharField(max_length=200)

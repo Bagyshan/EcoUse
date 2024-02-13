@@ -56,7 +56,9 @@ INSTALLED_APPS = [
     'product',
     'home',
     'recommendation',
-    'parentcategory'
+    'parentcategory',
+    'favorite',
+    'comment'
 ]
 
 MIDDLEWARE = [
@@ -263,7 +265,7 @@ CORS_ALLOW_HEADERS = [
 
 
 CORS_ALLOW_CREDENTIALS = True
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 LOGGING = {
     'version': 1,
