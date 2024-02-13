@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser, Group, Permission, AbstractBaseUser, PermissionsMixin
 from django.db import models
 
 class UserManager(BaseUserManager):
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_active', True)
         return self._create_user(email, password, **extra_fields)
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractBaseUser,PermissionsMixin):
     STATUS_CHOICES = (
         ('user', 'Пользователь'),
         ('seller', 'Продавец')
@@ -39,6 +39,9 @@ class CustomUser(AbstractUser):
     is_seller = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=255, blank=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='user')
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
     objects = UserManager()
 
@@ -53,5 +56,5 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
-    groups = models.ManyToManyField(Group, related_name='custom_user_groups')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')
+    # groups = models.ManyToManyField(Group, related_name='custom_user_groups')
+    # user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')

@@ -7,7 +7,7 @@ from telebot import types
 
 TOKEN = '6957575391:AAHjHq2lFnoCjikPk8ogNiSq_BeebeLMmKk'
 
-BACKEND_URL = 'http://localhost/'
+BACKEND_URL = 'http://localhost'
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -26,7 +26,7 @@ response = requests.get(f'{BACKEND_URL}/category/')
 
 if response.status_code == 200:
     response_data = response.json()
-    categories = {category['name']:category['id'] for category in response_data}
+    categories = {category['parent']:category['id'] for category in response_data}
     print(categories)
 
 
@@ -52,7 +52,7 @@ def handle_search(message):
 
     response = requests.get(search_url)
 
-    result_data = json.dumps(response.get('results'))
+    result_data = json.dumps(response)
 
     if result_data:
         for product in result_data:
@@ -83,7 +83,8 @@ def handle_category(message):
 
     if response.status_code == 200:
         response_data = response.json()
-        categories = [category['name'] for category in response_data]
+        categories = [category['parent'] for category in response_data]
+        
 
         for category in categories:
             keyboard_category.add(types.KeyboardButton(category))

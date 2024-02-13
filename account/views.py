@@ -1,9 +1,10 @@
+from uuid import UUID, uuid4
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .send_email import send_confirmation_email
 from .tasks import send_confirmation_email_task, send_password_reset_task
-from .serializers import CustomPasswordConfirmSerializer, CustomResetPasswordResetSerializer, RegisterSerializer , LogOutSerializer
+from .serializers import CustomResetPasswordResetSerializer, RegisterSerializer , LogOutSerializer, CustomPasswordConfirmSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
@@ -35,10 +36,8 @@ class RegistrationView(APIView):
             return Response(serializer.data, status=HTTPStatus.CREATED)
 
  
-
 class ActivationView(APIView):
-    def get(self, request):
-        activation_code = self.request.query_params.get('u') 
+    def get(self, request, activation_code):
         if not activation_code:
             return Response({
                 'error': 'Нужен код активации'
@@ -70,30 +69,36 @@ class LogoutView(APIView):
         token.blacklist()
         return Response('Успешно разлогинились', 200)
 
-
 class CustomResetPasswordView(APIView):
     @swagger_auto_schema(request_body=CustomResetPasswordResetSerializer)
     def post(self, request):
         email = request.data.get('email')
-        user = User.objects.get(email=email)
+        user = User.objects.filter(email=email).first()
+
         if not user:
-            return Response({'ValidationError': 'Нет такого пользователя'}, status=HTTPStatus.BAD_REQUEST)
+            return Response({'ValidationError': 'Нет такого пользователя'}, status=status.HTTP_400_BAD_REQUEST)
+
         user.create_activation_code()
         user.save()
-        user_activation_code = user.activation_url
+        user_activation_code = user.activation_code
         send_password_reset_task.delay(email=email, user_id=user_activation_code)
-        return Response('Вам на почту отправили сообщение', 200)
-    
+
+        return Response({'message': 'Вам на почту отправили сообщение'}, status=status.HTTP_200_OK)
 
 class CustomPasswordConfirmView(APIView):
     @swagger_auto_schema(request_body=CustomPasswordConfirmSerializer)
     def post(self, request, *args, **kwargs):
         new_password = request.data.get('new_password')
         password_confirm = request.data.get('password_confirm')
-        user_id = self.kwargs.get('uidb64')
-        user = User.objects.get(id=user_id)
+        user_id = request.data.get('confirm_code')
+
+        user = User.objects.get(activation_code = user_id)
+
         if new_password != password_confirm:
-            return Response('Пароли не совпадают', 404)
+            return Response({'ValidationError': 'Пароли не совпадают'}, status=status.HTTP_400_BAD_REQUEST)
+
         user.set_password(new_password)
+        user.activation_code = ''
         user.save()
-        return Response('Ваш пароль изменен!', 201)
+
+        return Response({'message': 'Ваш пароль изменен!'}, status=status.HTTP_201_CREATED)
