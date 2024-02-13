@@ -310,14 +310,14 @@ JAZZMIN_SETTINGS = {
     "site_header": "Ecouse",
     # "site_logo": "images/logo.png",  # Путь к вашему логотипу
     "site_logo_classes": "img-circle",
-    "welcome_sign": "Добро пожаловать в Library",
+    "welcome_sign": "Добро пожаловать в EcoUse",
     "show_sidebar": True,
     "navigation_expanded": True,
     "hide_apps": ["social_django", "auth"],
     "usermenu_links": [
         {
             "name": "Помощь",
-            "url": "https://www.google.com/",
+            "url": "https://www.google.ru/",
             "new_window": True
         },
         {
@@ -328,7 +328,7 @@ JAZZMIN_SETTINGS = {
         # Ссылки, отображаемые в верхнем меню
         {"name": "Домой", "url": "admin:index",
          "permissions": ["auth.view_user"]},
-        {"name": "Поддержка", "url": "https://www.google.com/",
+        {"name": "Поддержка", "url": "https://www.google.ru/",
          "new_window": True},
     ],
     "show_ui_builder": True,

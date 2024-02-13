@@ -1,3 +1,4 @@
+import json
 import telebot
 import requests
 from telebot import types
@@ -25,8 +26,8 @@ response = requests.get(f'{BACKEND_URL}/category/')
 
 if response.status_code == 200:
     response_data = response.json()
-    categories = {category['name']:category['id'] for category in response_data}
-    
+    categories = {category['parent']:category['id'] for category in response_data}
+
 
 
 @bot.message_handler(commands=['start'])
@@ -50,7 +51,7 @@ def handle_search(message):
 
     response = requests.get(search_url)
 
-    result_data = response.json().get('results')
+    result_data = response.json()['results']
 
     if result_data:
         for product in result_data:
@@ -81,7 +82,7 @@ def handle_category(message):
 
     if response.status_code == 200:
         response_data = response.json()
-        categories = [category['name'] for category in response_data]
+        categories = [category['parent'] for category in response_data]
 
         for category in categories:
             keyboard_category.add(types.KeyboardButton(category))
@@ -102,23 +103,22 @@ def handle_buttons(message):
     elif message.text == 'Команды':
         handle_help(message)
     elif message.text in categories.keys():
-        category_name = categories[message.text]
-        response = requests.get(f'{BACKEND_URL}/products/category/{category_name}/',)
-        result_data = response.json()
+        category_name = message.text
+        response = requests.get(f'{BACKEND_URL}/products/category/', params={'category_id':f'{categories[category_name]}'})
+        print(response)
+
+        result_data = response.json().get('results')
 
         if result_data:
-            for product in result_data :
+            for product in result_data:
                 title = product.get('title', 'Нет заголовка')
                 body = product.get('body', 'Нет описания')
                 image = product.get('image', None)
                 price = product.get('price', 'Нет цены')
                 created_at = product.get('created_at', 'Нет даты создания')
 
-                
-
                 message_text = f"Назание: {title}\n\n Описание: {body}\nЦена: {price}\nДата создания: {created_at}"
                 image_send(image)
-                print(image_send)
                 image = 'product_image.jpg'
                 with open(image, 'rb') as photo:
                     bot.send_photo(message.chat.id, photo=photo, caption=message_text)
@@ -130,6 +130,3 @@ def handle_buttons(message):
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)
-
-
-
